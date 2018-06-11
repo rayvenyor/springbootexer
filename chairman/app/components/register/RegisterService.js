@@ -5,23 +5,69 @@ angular.module('myApp')
     ['$localStorage','$http','$q','urls', function($localStorage,$http,$q,urls){
 
     var factory = {
-        registerUser: registerUser
+        registerUser: registerUser,
+        populateListofBarangays: populateListofBarangays,
+        getAllBarangays :getAllBarangays
     };
 
     return factory;
 
-    function registerUser (user){
-        console.log ("RegisterService.registerUser() start");
+    function populateListofBarangays(){
         var deferred = $q.defer();
-        $http.post(urls.BASE+'reg', user)
+        $http.get(urls.BARANGAY)
+            .then(
+                function(response){
+                    console.log(response.data);
+                    $localStorage.barangays = response.data;
+                    deferred.resolve(response);
+                },
+                function (errResponse){
+                    console.error ("Error in retrieving data");
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function getAllBarangays(){
+        return $localStorage.barangays;
+    }
+
+    function registerUser (voter){
+        console.log ("start: RegisterService.registerUser()");
+
+        var headers = new Headers({
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        });
+
+        var deferred = $q.defer();
+        // $http.post(urls.VOTER, JSON.stringify(voter),{headers})
+        //     .then(
+        //         function(response){
+        //             console.log("Successfully registered user");
+        //             deferred.resolve(response.data);
+        //         },
+        //         function(errResponse){
+        //             console.error("Error while resolving: "+errResponse.data);
+        //             deferred.reject(errResponse);
+        //         }
+        //     );
+        $http({
+            method:'POST',
+            url:urls.VOTER,
+            data:JSON.stringify(voter),
+            headers: {'Content-Type':'application/json'}
+        })
             .then(
                 function(response){
                     console.log("Successfully registered user");
+                    $localStorage.currentUser = voter;
                     deferred.resolve(response.data);
                 },
                 function(errResponse){
-                    console.error("Error while resolving: "+errResponse.data.errorMessage);
-                    deferred.reject(response);
+                    console.error("Error while resolving: "+errResponse.data);
+                    deferred.reject(errResponse);
                 }
             );
         console.log ("RegisterService.registerUser() end");

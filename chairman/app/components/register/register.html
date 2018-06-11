@@ -2,41 +2,31 @@
     <div class="main">
         <h1 class="w3layouts_head">Election Registration Form</h1>
         <div class="w3layouts_main_grid">
-            <form action="#" method="post" class="w3_form_post">
+            <form ng-submit="regctrl.submit()" class="w3_form_post">
                 <div class="w3_agileits_main_grid w3l_main_grid">
 							<span class="agileits_grid">
 								<label>First Name </label>
-								<input type="text" name="Task" placeholder="First Name" required="">
+								<input ng-model="regctrl.voter.firstname" type="text" placeholder="First Name" required="">
 							</span>
                 </div>
                 <div class="w3_agileits_main_grid w3l_main_grid">
 							<span class="agileits_grid">
 								<label>Middle Name </label>
-								<input type="text" name="Task" placeholder="Middle Name" required="">
+								<input ng-model="regctrl.voter.middlename" type="text" placeholder="Middle Name" required="">
 							</span>
                 </div>
                 <div class="w3_agileits_main_grid w3l_main_grid">
 							<span class="agileits_grid">
 								<label>Last Name </label>
-								<input type="text" name="Task" placeholder="Last Name" required="">
+								<input ng-model="regctrl.voter.lastname" type="text" placeholder="Last Name" required="">
 							</span>
                 </div>
                 <div class="w3_agileits_main_grid w3l_main_grid">
 							<span class="agileits_grid">
 								<label>Barangay</label>
-								<input type="text" name="Task" placeholder="Barangay" required="">
-							</span>
-                </div>
-                <div class="w3_agileits_main_grid w3l_main_grid">
-							<span class="agileits_grid">
-								<label>No.of persons </label>
-								<select name="country">
-									<option value="none" selected="" disabled="">Select numbers</option>
-									<option value="Ph">50</option>
-									<option value="Po">100</option>
-									<option value="So">200</option>
-									<option value="Sp">500</option>
-									<option value="Sw">1000</option>
+								<select  name="barangay" ng-model="regctrl.voter.barangay">
+									<option value="none" selected="" disabled="">Select barangay</option>
+									<option ng-repeat="barangay in regctrl.populateBarangay()">{{barangay}}</option>
 								</select>
 							</span>
                 </div>
@@ -44,7 +34,7 @@
 							<span class="agileinfo_grid">
 								<label>Birthday</label>
 								<div class="agileits_w3layouts_main_gridl">
-									<input class="date" id="datepicker" name="Text" type="text" value="yyyy-MM-dd" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" required="">
+									<input ng-model="regctrl.voter.birthday" class="date" id="datepicker" name="Text" type="text" placeholder="yyyy-MM-dd"  required="">
 								</div>
 							</span>
                 </div><br>
@@ -54,17 +44,13 @@
                             <div class="grid-w3layouts1">
                                 <div class="w3-agile1">
                                     <label>Gender</label>
-                                    <ul>
-                                        <li>
-                                            <input type="radio" id="a-option" name="selector1" required />
-                                            <label for="a-option">Male </label>
-                                            <div class="check"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" id="b-option" name="selector1" >
-                                            <label for="b-option">Female</label>
-                                            <div class="check"><div class="inside"></div></div>
-                                        </li>
+                                    <ul><br>
+                                        <div class="radio">
+                                            <label><input ng-model ="regctrl.voter.gender" type="radio" value="M" name="optradio" checked> Male</label>
+                                        </div><br>
+                                        <div class="radio">
+                                            <label><input ng-model ="regctrl.voter.gender" type="radio" value="F" name="optradio"> Female</label>
+                                        </div>
                                     </ul>
                                 </div>
                             </div>
