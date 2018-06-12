@@ -42,17 +42,7 @@ angular.module('myApp')
         });
 
         var deferred = $q.defer();
-        // $http.post(urls.VOTER, JSON.stringify(voter),{headers})
-        //     .then(
-        //         function(response){
-        //             console.log("Successfully registered user");
-        //             deferred.resolve(response.data);
-        //         },
-        //         function(errResponse){
-        //             console.error("Error while resolving: "+errResponse.data);
-        //             deferred.reject(errResponse);
-        //         }
-        //     );
+
         $http({
             method:'POST',
             url:urls.VOTER,

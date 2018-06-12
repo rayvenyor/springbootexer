@@ -32,6 +32,20 @@ var app = angular.module('myApp', ['ui.router','ngStorage']);
                     return deferred.promise;
                 }
             }
+        })
+        .state("vote",{
+            url: "/vote",
+            templateUrl:"components/vote/vote.html",
+            controller: "VoteController",
+            controllerAs: 'votectrl',
+            resolve: {
+                elects: function ($q, VoteService){
+                    console.log("Loading all elects in barangay");
+                    var deferred = $q.defer();
+                    VoteService.getElectsByBarangay().then(deferred.resolve,deferred.resolve);
+                    return deferred.promise;
+                }
+            }
         });
 
     $urlRouterProvider.otherwise("/reg");

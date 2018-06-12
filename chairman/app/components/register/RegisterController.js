@@ -2,11 +2,11 @@
 
 angular.module('myApp')
 .controller('RegisterController',
-    ['RegisterService','$scope', function(RegisterService, $scope){
+    ['RegisterService','$scope','$localStorage', function(RegisterService, $scope,$localStorage){
 
         var self = this;
         self.voter = {};
-        self.barangays = {};
+
         self.submit = submit;
         self.populateBarangay = populateBarangay;
         self.registerVoter = registerVoter;
@@ -15,6 +15,8 @@ angular.module('myApp')
             console.log("Start: submit()");
             var x = confirm("Click Yes to confirm")
             if (x){
+                $localStorage.barangay = self.voter.barangay;
+                $localStorage.currentVoter = self.voter;
                 registerVoter(self.voter);
             }
             console.log("End: submit()");
@@ -29,11 +31,13 @@ angular.module('myApp')
             RegisterService.registerUser(voter)
                 .then(
                     function(response){
+                        $localStorage.removeItem('elects');
+                        //TODO: redirect to vote page
                         console.log ("Registering of Voter success");
-                        //redirect to voting page...
+
                     },
                     function(errResponse){
-                        console.log ("Error while registering user");
+                        console.error("Error while registering user");
                     }
                 );
 
