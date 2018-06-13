@@ -7,7 +7,8 @@ var app = angular.module('myApp', ['ui.router','ngStorage']);
         BASE: "http://localhost:8080/",
         BARANGAY: "http://localhost:8080/barangay/",
         VOTER: "http://localhost:8080/voter/",
-        ELECT: "http://localhost:8080/elect/"
+        ELECT: "http://localhost:8080/elect/",
+        RESULTS: "http://localhost:8080/results/"
     });
     app.config(["$stateProvider", "$urlRouterProvider","$httpProvider",
     function($stateProvider, $urlRouterProvider,$httpProvider) {
@@ -50,6 +51,12 @@ var app = angular.module('myApp', ['ui.router','ngStorage']);
 
                 }
             }
+        })
+        .state("results",{
+            url: "/results",
+            templateUrl:"components/results/results.html",
+            controller: "ResultsController",
+            controllerAs: "resctrl"
         });
 
     $urlRouterProvider.otherwise("/reg");

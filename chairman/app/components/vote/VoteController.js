@@ -37,12 +37,13 @@ angular.module('myApp')
             VoteService.updateVote(self.voter)
                 .then(
                     function (response) {
+                        alert("Thank you for voting!");
                         $state.go("results");
                         console.log("Successfully updated voter's candidate..");
                     },
                     function (errResponse) {
                         console.error("Error while updating vote");
                     }
-                )
+                );
         }
     }]);

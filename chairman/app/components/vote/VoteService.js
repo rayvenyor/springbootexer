@@ -21,7 +21,6 @@ angular.module('myApp')
                 return;
             }
             var deferred = $q.defer();
-            console.log($localStorage.currentVoter);
             $http.get(urls.BARANGAY + $localStorage.barangay.id)
                 .then(
                     function (response) {
@@ -50,7 +49,6 @@ angular.module('myApp')
                 headers: {'Content-Type':'application/json'}
             }).then(
                     function(response){
-                        $state.go('vote');
                         deferred.resolve(response);
                     },
                     function (errResponse){
