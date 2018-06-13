@@ -26,7 +26,7 @@
 								<label>Barangay</label>
 								<select  name="barangay" ng-model="regctrl.voter.barangay">
 									<option value="none" selected="" disabled="">Select barangay</option>
-									<option ng-repeat="barangay in regctrl.populateBarangay()">{{barangay}}</option>
+									<option ng-repeat="barangay in regctrl.populateBarangay()">{{barangay.barangay}}</option>
 								</select>
 							</span>
                 </div>
@@ -61,6 +61,7 @@
                 </div>
                 <div class="w3_main_grid">
                     <div class="w3_main_grid_right">
+                        <input type="submit" value="Apply for Chairman" style="font-size:0.7em">
                         <input type="submit" value="Submit">
                     </div>
                 </div>

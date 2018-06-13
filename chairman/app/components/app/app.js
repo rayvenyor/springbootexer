@@ -1,4 +1,5 @@
 'use strict';
+//localStorage variables = {barangays,barangay,currentVoter,elects}
 
 // Declare app level module which depends on views, and components
 var app = angular.module('myApp', ['ui.router','ngStorage']);
@@ -26,6 +27,8 @@ var app = angular.module('myApp', ['ui.router','ngStorage']);
             controllerAs: 'regctrl',
             resolve: {
                 barangays: function ($q, RegisterService){
+                    // localStorage.clear(); //Uncomment when localstorage clear
+
                     console.log("Loading all barangays");
                     var deferred = $q.defer();
                     RegisterService.populateListofBarangays().then(deferred.resolve,deferred.resolve);
@@ -42,8 +45,9 @@ var app = angular.module('myApp', ['ui.router','ngStorage']);
                 elects: function ($q, VoteService){
                     console.log("Loading all elects in barangay");
                     var deferred = $q.defer();
-                    VoteService.getElectsByBarangay().then(deferred.resolve,deferred.resolve);
+                    VoteService.getElectsByBarangay().then(deferred.resolve, deferred.resolve);
                     return deferred.promise;
+
                 }
             }
         });

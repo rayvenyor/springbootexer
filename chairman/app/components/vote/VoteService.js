@@ -15,16 +15,20 @@ angular.module('myApp')
 
 
         function getElectsByBarangay(){
-
+            if ($localStorage.currentVoter === undefined){
+                alert("Not yet registered. Redirecting..");
+                window.location.href = "#!/reg";
+                return;
+            }
             var deferred = $q.defer();
-
-            $http.get(urls.BARANGAY)
+            console.log($localStorage.currentVoter);
+            $http.get(urls.BARANGAY + $localStorage.barangay.id)
                 .then(
-                    function(response){
-                        $localStorage.elects = response.data.elects; //TODO: change to var name of elects in side barangay
+                    function (response) {
+                        $localStorage.elects = response.data;
                         deferred.resolve(response);
                     },
-                    function(errResponse){
+                    function (errResponse) {
                         console.log("Error in retrieving data");
                         deferred.reject(errResponse);
                     }
@@ -38,9 +42,13 @@ angular.module('myApp')
 
         function updateVote(voter){
             var deferred = $q.defer();
-
-            $http.put(urls.VOTER, voter)
-                .then(
+            console.log(voter);
+            $http({
+                method:'PUT',
+                url:urls.VOTER+voter.voterId,
+                data: voter.elect,
+                headers: {'Content-Type':'application/json'}
+            }).then(
                     function(response){
                         $state.go('vote');
                         deferred.resolve(response);
@@ -51,7 +59,6 @@ angular.module('myApp')
                 );
             return deferred.promise;
         }
-
 
 
 

@@ -7,7 +7,9 @@ angular.module('myApp')
     var factory = {
         registerUser: registerUser,
         populateListofBarangays: populateListofBarangays,
-        getAllBarangays :getAllBarangays
+        getAllBarangays :getAllBarangays,
+        getBarangayByName: getBarangayByName,
+        getVoterIdByLastName: getVoterIdByLastName
     };
 
     return factory;
@@ -29,18 +31,30 @@ angular.module('myApp')
         return deferred.promise;
     }
 
+    function getBarangayByName(){
+        var deferred = $q.defer();
+
+        $http.get(urls.BARANGAY+"?name="+$localStorage.barangay)
+            .then(
+                function(response){
+                    deferred.resolve(response);
+                },
+                function(errResponse){
+                    console.error("Error in retrieving data");
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
     function getAllBarangays(){
         return $localStorage.barangays;
     }
 
+
+
     function registerUser (voter){
         console.log ("start: RegisterService.registerUser()");
-
-        var headers = new Headers({
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        });
-
         var deferred = $q.defer();
 
         $http({
@@ -52,8 +66,7 @@ angular.module('myApp')
             .then(
                 function(response){
                     console.log("Successfully registered user");
-                    $localStorage.currentUser = voter;
-                    deferred.resolve(response.data);
+                    deferred.resolve(response);
                 },
                 function(errResponse){
                     console.error("Error while resolving: "+errResponse.data);
@@ -64,8 +77,23 @@ angular.module('myApp')
         return deferred.promise;
     }
 
-    function updateVoterElect(elect){
+    function getVoterIdByLastName (lastname){
+        console.log ("start: RegisterService.GetVoterIdByLastName");
+        var deferred = $q.defer();
 
+        $http.get(urls.VOTER+lastname)
+            .then(
+                function(response){
+                    console.log("Successfully got Id");
+                    deferred.resolve(response);
+                },
+                function (errResponse){
+                    deferred.reject(errResponse);
+                }
+            );
+
+        console.log ("end: RegisterService.GetVoterIdByLastName");
+        return deferred.promise;
     }
 
     }]);
